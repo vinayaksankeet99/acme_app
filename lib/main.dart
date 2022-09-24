@@ -1,7 +1,14 @@
+import 'package:acme/firebase_options.dart';
+import 'package:acme/ui/app_theme.dart';
 import 'package:acme/workflow/landing_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const AcmeApp());
 }
 
@@ -10,10 +17,9 @@ class AcmeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppTheme.getThemeData(context),
       home: const LandingPage(),
     );
   }

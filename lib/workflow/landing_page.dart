@@ -1,3 +1,5 @@
+import 'package:acme/workflow/home/screens/homepage.dart';
+import 'package:acme/workflow/sign_in/screens/sign_in_screen.dart';
 import 'package:acme/workflow/sign_in/view_model/user_respository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,11 +20,9 @@ class _LandingPageState extends State<LandingPage> {
         builder: (context, UserRepository user, _) {
           switch (user.status) {
             case Status.unauthenticated:
-              return Container();
-            case Status.authenticating:
-              return Container();
+              return const SignInScreen();
             case Status.authenticated:
-              return Container();
+              return const HomepageScreen();
           }
         },
       ),

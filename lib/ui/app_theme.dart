@@ -87,6 +87,7 @@ class AppTheme {
       fontFamily: GoogleFonts.poppins().fontFamily,
       textTheme: _textTheme,
       appBarTheme: AppBarTheme(
+        elevation: 0,
         backgroundColor: AppColors.primary,
         iconTheme: const IconThemeData(color: AppColors.white),
         titleTextStyle: _textTheme.subtitle2!.copyWith(
