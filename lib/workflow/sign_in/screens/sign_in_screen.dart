@@ -1,7 +1,6 @@
 import 'package:acme/component/custom_elevated_button_icon.dart';
 import 'package:acme/ui/app_color.dart';
 import 'package:acme/workflow/sign_in/view_model/user_respository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

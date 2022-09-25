@@ -21,24 +21,15 @@ class UserRepository with ChangeNotifier {
 
   Future<void> signInWithGoogle() async {
     try {
-      print(0011);
       final user = await _googleSignIn.signIn();
-      print(1);
       final GoogleSignInAuthentication? googleAuth = await user?.authentication;
-      print(2);
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      print(3);
-      final result =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      print(4);
-      print(result.user?.displayName);
+      await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
-      print('ERRRRR');
-      print(e);
       _status = Status.unauthenticated;
       notifyListeners();
     }
