@@ -18,6 +18,7 @@ class _LandingPageState extends State<LandingPage> {
       create: (_) => UserRepository.instance(),
       child: Consumer(
         builder: (context, UserRepository user, _) {
+          // redirect to page whether user is signed in or not
           switch (user.status) {
             case Status.unauthenticated:
               return const SignInScreen();

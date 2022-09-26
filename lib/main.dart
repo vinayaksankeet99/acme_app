@@ -19,6 +19,7 @@ class AcmeApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      // custom app theme data
       theme: AppTheme.getThemeData(context),
       home: const LandingPage(),
     );

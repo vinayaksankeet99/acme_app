@@ -7,7 +7,7 @@ enum Status { authenticated, unauthenticated }
 class UserRepository with ChangeNotifier {
   final FirebaseAuth _auth;
   Status _status = Status.unauthenticated;
-  User? _user;
+
   UserRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
   }
@@ -37,11 +37,11 @@ class UserRepository with ChangeNotifier {
 
   Future signOut() async {}
 
+// detects when there is a change in user authentication (login / logout)
   Future<void> _onAuthStateChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _status = Status.unauthenticated;
     } else {
-      _user = firebaseUser;
       _status = Status.authenticated;
     }
     notifyListeners();

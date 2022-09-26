@@ -1,9 +1,11 @@
 import 'package:acme/ui/app_color.dart';
-import 'package:acme/workflow/home/widgets/tracker_box_template.dart';
-import 'package:acme/workflow/trackers/screens/tracker_list_home.dart';
+import 'package:acme/util/enums.dart';
+import 'package:acme/workflow/home/screens/tracker_grids_widget.dart';
+import 'package:acme/workflow/home/view_models/home_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomepageScreen extends StatefulWidget {
   const HomepageScreen({Key? key}) : super(key: key);
@@ -13,6 +15,14 @@ class HomepageScreen extends StatefulWidget {
 }
 
 class _HomepageScreenState extends State<HomepageScreen> {
+  final homRepo = HomeRepository();
+  @override
+  void initState() {
+    // initially fetch the trackers value for today
+    homRepo.initializeTrackers();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -62,67 +72,47 @@ class _HomepageScreenState extends State<HomepageScreen> {
               const SizedBox(
                 height: 24,
               ),
-              GridView(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                children: [
-                  TrackerTemplate(
-                    centerWidget: Image.asset(
-                      'assets/trackers/weight.png',
-                      width: 42,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const TrackerListHomeScreen()),
-                      );
-                    },
-                    title: 'Weight',
-                    iconData: Ionicons.scale_outline,
-                    data: '52 Kg',
-                  ),
-                  TrackerTemplate(
-                    centerWidget: Image.asset(
-                      'assets/trackers/heart_rate.png',
-                      width: 42,
-                      color: AppColors.primary,
-                    ),
-                    onPressed: () {},
-                    color: AppColors.accent,
-                    iconColor: AppColors.primary,
-                    title: 'Heart',
-                    iconData: Ionicons.heart,
-                    data: '72 bpm',
-                  ),
-                  TrackerTemplate(
-                    centerWidget: Image.asset(
-                      'assets/trackers/bp.png',
-                      width: 62,
-                    ),
-                    onPressed: () {},
-                    title: 'Blood pressure',
-                    iconData: Ionicons.heart_circle_outline,
-                    data: '90/60 mmHg',
-                  ),
-                  TrackerTemplate(
-                    centerWidget: Image.asset(
-                      'assets/trackers/exercise.png',
-                      width: 42,
-                    ),
-                    onPressed: () {},
-                    title: 'Daily Exercise',
-                    iconData: Ionicons.barbell,
-                    data: '30 mins',
-                  ),
-                ],
-              )
+              ChangeNotifierProvider(
+                create: (_) => homRepo,
+                child: Consumer(
+                  builder: (context, HomeRepository homeVm, _) {
+                    // while fetching trackers we maintain 3 states
+                    switch (homeVm.baseModelState) {
+                      case BaseModelState.loading:
+                        return const TrackerGridsLoading();
+                      case BaseModelState.success:
+                        return TrackerGrids(homeRepo: homeVm);
+                      case BaseModelState.error:
+                        return Container();
+                    }
+                  },
+                ),
+              ),
             ]),
           ),
         )
       ]),
     ));
+  }
+}
+
+// a custom shimmer loading like this is used to display while the data loads
+class TrackerGridsLoading extends StatelessWidget {
+  const TrackerGridsLoading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      itemCount: 4,
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+            baseColor: AppColors.primaryLight,
+            highlightColor: Colors.grey[800]!,
+            child: const Card());
+      },
+    );
   }
 }

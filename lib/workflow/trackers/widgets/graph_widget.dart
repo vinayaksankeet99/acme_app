@@ -3,7 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class GraphWidget extends StatefulWidget {
-  const GraphWidget({Key? key}) : super(key: key);
+  final String unit;
+  const GraphWidget({Key? key, required this.unit}) : super(key: key);
 
   @override
   _GraphWidgetState createState() => _GraphWidgetState();
@@ -98,13 +99,13 @@ class _GraphWidgetState extends State<GraphWidget> {
     String text;
     switch (value.toInt()) {
       case 1:
-        text = '25kg';
+        text = '25${widget.unit}';
         break;
       case 3:
-        text = '50kg';
+        text = '50${widget.unit}';
         break;
       case 5:
-        text = '70kg';
+        text = '70${widget.unit}';
         break;
       default:
         return Container();

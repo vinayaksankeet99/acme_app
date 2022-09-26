@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
 
   provider: ^6.0.3
+  intl: ^0.17.0
 
   # UI improvement packages
   shimmer: ^2.0.0
@@ -39,6 +40,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   ionicons:
   fl_chart: ^0.55.2
+  horizontal_picker: ^1.2.0
 
   # firebase packages
   firebase_core: ^1.23.0
