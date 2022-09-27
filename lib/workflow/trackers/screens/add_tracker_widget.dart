@@ -1,5 +1,4 @@
 import 'package:acme/component/custom_elevated_button.dart';
-import 'package:acme/component/custom_elevated_button_icon.dart';
 import 'package:acme/ui/app_color.dart';
 import 'package:acme/util/enum_converter.dart';
 import 'package:acme/workflow/trackers/view_models/tracker_vm.dart';
@@ -11,8 +10,12 @@ import 'package:horizontal_picker/horizontal_picker.dart';
 class AddTrackerWidget extends StatefulWidget {
   final HealthTracker healthTracker;
   final Function() added;
+  final DateTime dateTime;
   const AddTrackerWidget(
-      {Key? key, required this.healthTracker, required this.added})
+      {Key? key,
+      required this.healthTracker,
+      required this.added,
+      required this.dateTime})
       : super(key: key);
 
   @override
@@ -76,8 +79,10 @@ class _AddTrackerWidgetState extends State<AddTrackerWidget>
             onPressed: currentValue == null
                 ? null
                 : () async {
-                    await TrackerVM()
-                        .updateTracker(widget.healthTracker, currentValue!);
+                    await TrackerVM().updateTracker(
+                        healthTracker: widget.healthTracker,
+                        data: currentValue!,
+                        date: widget.dateTime);
                     widget.added();
                   },
             title: 'SAVE'),

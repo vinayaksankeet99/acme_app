@@ -16,17 +16,19 @@ class TrackerTemplate extends StatefulWidget {
   final Color color;
   final Color? iconColor;
   final HomeRepository homeVM;
-  const TrackerTemplate({
-    Key? key,
-    required this.title,
-    required this.iconData,
-    required this.centerWidget,
-    required this.healthTracker,
-    required this.data,
-    required this.homeVM,
-    this.color = AppColors.primaryLight,
-    this.iconColor = AppColors.white,
-  }) : super(key: key);
+  final bool tappable;
+  const TrackerTemplate(
+      {Key? key,
+      required this.title,
+      required this.iconData,
+      required this.centerWidget,
+      required this.healthTracker,
+      required this.data,
+      required this.homeVM,
+      this.color = AppColors.primaryLight,
+      this.iconColor = AppColors.white,
+      this.tappable = true})
+      : super(key: key);
 
   @override
   State<TrackerTemplate> createState() => _TrackerTemplateState();
@@ -39,7 +41,7 @@ class _TrackerTemplateState extends State<TrackerTemplate> {
 
     // open container is used for open/close animation.
     return OpenContainer<String>(
-      transitionDuration: const Duration(milliseconds: 400),
+      transitionDuration: const Duration(milliseconds: 600),
       closedColor: widget.color,
       openColor: AppColors.primary,
       // the screen that appears when you tap on the widget
@@ -48,7 +50,7 @@ class _TrackerTemplateState extends State<TrackerTemplate> {
       ),
       closedShape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      tappable: true,
+      tappable: widget.tappable,
       // the widget that appears on home screen
       closedBuilder: (_, openContainer) => Padding(
         padding: const EdgeInsets.all(16),
@@ -94,6 +96,7 @@ class _TrackerTemplateState extends State<TrackerTemplate> {
                                 Navigator.pop(context);
                                 widget.homeVM.initializeTrackers();
                               },
+                              dateTime: DateTime.now(),
                             );
                           });
                     },

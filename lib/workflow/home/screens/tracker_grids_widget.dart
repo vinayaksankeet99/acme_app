@@ -33,6 +33,8 @@ class _TrackerGridsState extends State<TrackerGrids> {
           children: [
             // a custom tracker template box is created where we can provide data and it can dynamically
             // show the boxes
+
+            // to add a new tracker, just add a new trackertemplate as well as a new enum in HealthTracker
             TrackerTemplate(
               centerWidget: Image.asset(
                 'assets/trackers/weight.png',
@@ -56,6 +58,7 @@ class _TrackerGridsState extends State<TrackerGrids> {
               iconColor: AppColors.primary,
               homeVM: widget.homeRepo,
               title: 'Heart',
+              tappable: false,
               iconData: Ionicons.heart,
               data: '72 bpm',
             ),

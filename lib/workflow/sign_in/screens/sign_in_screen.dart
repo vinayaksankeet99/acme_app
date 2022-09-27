@@ -3,6 +3,7 @@ import 'package:acme/ui/app_color.dart';
 import 'package:acme/workflow/sign_in/view_model/user_respository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -27,8 +28,8 @@ class _SignInScreenState extends State<SignInScreen> {
             children: [
               const Spacer(),
               const Icon(
-                CupertinoIcons.suit_diamond_fill,
-                color: AppColors.text,
+                Ionicons.diamond,
+                color: AppColors.accent,
                 size: 42,
               ),
               const SizedBox(
@@ -36,7 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               Text(
                 'Welcome to\nacme',
-                style: textTheme.headline4,
+                style: textTheme.headline4?.copyWith(color: AppColors.accent),
               ),
               const SizedBox(
                 height: 12,

@@ -4,8 +4,10 @@ import 'package:acme/util/enums.dart';
 import 'package:acme/workflow/trackers/screens/add_tracker_widget.dart';
 import 'package:acme/workflow/trackers/view_models/tracker_vm.dart';
 import 'package:acme/workflow/trackers/widgets/graph_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -140,6 +142,7 @@ class _TrackerListWidgetState extends State<TrackerListWidget>
                         Navigator.pop(context);
                         widget.trackerVm.getTrackerList(widget.healthTracker);
                       },
+                      dateTime: DateTime.now(),
                     );
                   });
             },
@@ -163,11 +166,32 @@ class _TrackerListWidgetState extends State<TrackerListWidget>
             tileColor: AppColors.primaryLight,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            leading: InkWell(
+              child: const Icon(
+                CupertinoIcons.pen,
+                color: AppColors.white,
+              ),
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return AddTrackerWidget(
+                        healthTracker: widget.healthTracker,
+                        added: () {
+                          Navigator.pop(context);
+                          widget.trackerVm.getTrackerList(widget.healthTracker);
+                        },
+                        dateTime: widget.trackerData[index].date,
+                      );
+                    });
+              },
+            ),
+            minLeadingWidth: 0,
             title: Text(
               widget.trackerData[index].data,
               style: textTheme.bodyText1?.copyWith(color: AppColors.white),
             ),
-            trailing: Text(DateFormat('dd MM yyyy')
+            trailing: Text(DateFormat('dd MMM, yyyy')
                 .format(widget.trackerData[index].date)),
           ),
           const SizedBox(

@@ -43,7 +43,10 @@ class TrackerVM with ChangeNotifier {
     }
   }
 
-  Future<void> updateTracker(HealthTracker healthTracker, String data) async {
+  Future<void> updateTracker(
+      {required HealthTracker healthTracker,
+      required String data,
+      required DateTime date}) async {
     try {
       await FirebaseFirestore.instance
           .collection('users')
@@ -53,8 +56,8 @@ class TrackerVM with ChangeNotifier {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('tracker_data')
-          .doc(DateFormat('dd-MM-yyyy').format(DateTime.now()))
-          .set({getTrackerString(healthTracker): data, 'date': DateTime.now()},
+          .doc(DateFormat('dd-MM-yyyy').format(date))
+          .set({getTrackerString(healthTracker): data, 'date': date},
               SetOptions(merge: true));
     } catch (e) {}
   }
